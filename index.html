@@ -1,0 +1,47 @@
+<html>
+<head>
+	<link rel="stylesheet" href="style.css" />
+	<script type="text/javascript" src="looper.js"></script>
+</head>
+<body>
+
+	URL1: <input type="text" id="url1" size="100" value="https://p.scdn.co/mp3-preview/b6261dd3ac0ff83f53ec5fc4caa5b6bf74f88691"><br/>
+	URL2: <input type="text" id="url2" size="100" value="https://p.scdn.co/mp3-preview/3178912a225816f16ec11bd936b38baa756ff459"><br/>
+
+	<br/>
+
+	PAT1: <input id="pat1" value="	0,1,2,3, 4,5,6,7, 8,9,10,11, 12,13,14,15"><br/>
+	PAT2: <input id="pat2" value="0,1,2,7,  8,1,4,3,   0,4,2,13,  0,11,12,14 "><br/>
+	<br/>
+	0,11,2,7, 19,5, 0,1, 8,12,0,8,  7,3, 0,14, 
+	0,1,2,3, 4,5,6,7, 8,9,10,11, 12,13,14,15
+
+	<br/>
+	<br/>
+
+	BEATRANGE1: <input id="beatrange1" value="1045,1900,2"><br/>
+	BEATRANGE2: <input id="beatrange2" value="6690,8405,4"><br/>
+	<br/>
+
+	<hr/><br/>
+	<canvas id="waveform1" width="1000" height="50"></canvas><br/><br/>
+	<canvas id="waveform1zoomin" width="500" height="150"></canvas>
+	<canvas id="waveform1zoomout" width="500" height="150"></canvas><br/><br/>
+	<hr/><br/>
+	<canvas id="waveform2" width="1000" height="50"></canvas><br/><br/>
+	<canvas id="waveform2zoomin" width="500" height="150"></canvas>
+	<canvas id="waveform2zoomout" width="500" height="150"></canvas><br/><br/>
+	<hr/><br/>
+	<br/>
+
+	<textarea id="pats"></textarea>
+	<br/>
+
+	VOL1: <input type="range" id="vol1" min="0" max="200" value="100"><br/>
+	VOL2: <input type="range" id="vol2" min="0" max="200" value="100"><br/>
+	<br/>
+
+	https://api.spotify.com/v1/albums/4pmYPvbn56oneBdrX7xAuj
+
+</body>
+</html>
