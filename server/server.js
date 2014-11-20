@@ -5,17 +5,25 @@ var TokenHelper = require('./tokenhelper').TokenHelper;
 var api_setup = require('./api').setup;
 var web_setup = require('./web').setup;
 var bodyParser = require('body-parser')
+var fs = require('fs');
 
-var config = {
-  // testing credentials
-  spotifyClientId: 'af47e54fab1d4610aa62402cbb91d63a',
-  spotifyClientSecret: '3032af33e3ca49c79ca2d75eee3b87a9',
-  spotifyRedirect: 'http://localhost:3088/login/callback',
-  redisHost: '127.0.0.1',
-  redisPort: 6379,
-  tokenHelperSecret: '231312224d234',
-  noTemplateCache: true
-};
+var config = {};
+
+function loadConfig(filename) {
+  console.log('loadConfig', filename);
+  if (!fs.existsSync(filename)) {
+    return;
+  }
+  var d = JSON.parse(fs.readFileSync(filename, 'UTF-8'));
+  if (d) {
+    for(var k in d) {
+      config[k] = d[k];
+    }
+  }
+}
+
+loadConfig('server/config.local.json');
+loadConfig('server/config.production.json');
 
 var app = express();
 app.config = config;

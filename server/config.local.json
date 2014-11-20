@@ -1,0 +1,9 @@
+{
+  "spotifyClientId": "af47e54fab1d4610aa62402cbb91d63a",
+  "spotifyClientSecret": "3032af33e3ca49c79ca2d75eee3b87a9",
+  "spotifyRedirect": "http://localhost:3088/login/callback",
+  "redisHost": "127.0.0.1",
+  "redisPort": 6379,
+  "tokenHelperSecret": "231312224d234",
+  "noTemplateCache": true
+}
