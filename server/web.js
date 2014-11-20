@@ -64,8 +64,8 @@ function setup(app) {
           var tokendata = { id: me_response.id, name: me_response.display_name, avatar: me_response.images[0].url, ts: ~~(new Date()) };
           console.log('tokendata', tokendata);
           var newtoken = app.tokenHelper.encrypt(tokendata);
-          res.cookie('al_userinfo', newtoken, { maxAge: 3600000, path: '/' });
-          res.cookie('sp_access_token', d.access_token, { maxAge: 3600000, path: '/' });
+          res.cookie('al_userinfo', newtoken, { maxAge: 30*24*60*60*1000, path: '/' });
+          res.cookie('sp_access_token', d.access_token, { maxAge: 30*24*60*60*1000, path: '/' });
           // res.send('Login callback for user ' + userdata.id + ', set token cookie to ' + newtoken + ' and go <a href="' + stateobj.forward + '">here</a>');
           res.redirect(stateobj.forward);
           done();
