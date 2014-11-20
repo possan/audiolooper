@@ -78,7 +78,7 @@
 		});
 		this.element.addEventListener('mousemove', function(e) {
 			var h = _this.element.clientHeight;
-			 console.log('e', e);
+			// console.log('e', e);
 			if (e.which != 0) {
 				_this.fireEvent('click', {
 					x: e.offsetX,
@@ -496,7 +496,7 @@
  		});
 
 		var tick = -4;
-		setInterval(function() {
+		function beat() {
 			// console.log('tick', tick);
 
 			for(var i=0; i<2; i++) {
@@ -536,8 +536,9 @@
 			tick ++;
 			if (tick >= 16)
 				tick = 0;
+		}
 
-		}, 1000 * sps);
+		// setInterval(beat, 1000 * sps);
 	};
 
 	window.addEventListener('load', function() {

@@ -1,0 +1,53 @@
+<html ng-app="LooperApp">
+<head>
+	<script type="text/javascript">
+		window.g_user = {
+			id: <%- JSON.stringify(userid) %>,
+			username: <%- JSON.stringify(username) %>,
+			avatar: <%- JSON.stringify(useravatar) %>,
+		};
+		window.g_view = {
+			id: <%- JSON.stringify(id) %>,
+			docs: <%- JSON.stringify(docs) %>,
+			user: <%- JSON.stringify(user) %>,
+		};
+	</script>
+	<link rel="stylesheet" href="/css/style.css" />
+	<link rel="stylesheet" href="/css/waveform.css" />
+	<script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+	<script type="text/javascript" src="/bower_components/spotify-web-api-js/src/spotify-web-api.js"></script>
+	<script type="text/javascript" src="/src/app.js"></script>
+	<script type="text/javascript" src="/src/waveform.js"></script>
+	<script type="text/javascript" src="/src/forkable.js"></script>
+</head>
+<body ng-controller="UserCtrl">
+
+	<h3><a href="/">Audiolooper</a></h3>
+
+	<h1>User <span ng-bind="user.name">?</span> documents</h3>
+	<hr />
+
+	<div ng-if="currentuserid == ''">
+		<button id="login" ng-click="login()">SIGN IN</button>
+	</div>
+
+	<div ng-if="currentuserid != ''">
+		<img ng-src="currentuseravatar" align="absbottom" width="20" height="20" />
+		<a href="/user/{{currentuserid}}" id="username" ng-bind="currentusername"></a>
+		&nbsp;
+		<button id="login" ng-click="logout()">SIGN OUT</button>
+	</div>
+
+	<hr/>
+
+	<ul>
+		<li ng-repeat="d in docs">
+			<a href="/{{d.id}}">
+				document {{ d.id }}
+			</a>
+		</li>
+	</ul>
+
+</body>
+</html>

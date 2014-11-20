@@ -1,0 +1,58 @@
+<html ng-app="LooperApp">
+<head>
+	<script type="text/javascript">
+		window.g_user = {
+			id: <%- JSON.stringify(userid) %>,
+			username: <%- JSON.stringify(username) %>,
+			avatar: <%- JSON.stringify(useravatar) %>,
+		};
+		window.g_view = {
+			id: <%- JSON.stringify(docid) %>,
+			version: <%- JSON.stringify(docver) %>,
+			owner: <%- JSON.stringify(docowner) %>,
+			data: <%- JSON.stringify(docdata) %>,
+		};
+	</script>
+	<link rel="stylesheet" href="/css/style.css" />
+	<link rel="stylesheet" href="/css/waveform.css" />
+	<script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+	<script type="text/javascript" src="/bower_components/spotify-web-api-js/src/spotify-web-api.js"></script>
+	<script type="text/javascript" src="/src/app.js"></script>
+	<script type="text/javascript" src="/src/waveform.js"></script>
+	<script type="text/javascript" src="/src/forkable.js"></script>
+</head>
+<body ng-controller="MainCtrl">
+
+	<h3><a href="/">Audiolooper</a></h3>
+
+	<h1 ng-hide="docid != ''">New document</h1>
+	<h1 ng-show="docid != ''">Document <span ng-bind="docid">?</span> <a href="/{{docid}}/versions">Version <span ng-bind="docver">?</span></a> By <a href="/user/{{docowner}}" ng-bind="docowner">?</a></h3>
+	<hr />
+
+	<div ng-if="currentuserid == ''">
+		<button id="login" ng-click="login()">SIGN IN</button>
+	</div>
+
+	<div ng-if="currentuserid != ''">
+		<img ng-src="currentuseravatar" align="absbottom" width="20" height="20" />
+		<a href="/user/{{currentuserid}}" id="username" ng-bind="currentusername"></a>
+		&nbsp;
+		<button id="login" ng-click="logout()">SIGN OUT</button>
+	</div>
+
+	<br/>
+
+	<hr/>
+
+	<button id="fork" ng-click="forkdoc()">FORK THIS</button>
+	<button id="save" ng-click="savedoc()">S∆VE</button>
+	<button id="new" ng-click="newdoc()">NEW</button>
+	<br/>
+
+	<textarea id="doc" ng-model="doc" cols="100" rows="15"></textarea>
+
+	<br/>
+
+</body>
+</html>

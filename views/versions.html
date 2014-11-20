@@ -1,0 +1,54 @@
+<html ng-app="LooperApp">
+<head>
+	<script type="text/javascript">
+		window.g_user = {
+			id: <%- JSON.stringify(userid) %>,
+			username: <%- JSON.stringify(username) %>,
+			avatar: <%- JSON.stringify(useravatar) %>,
+		};
+		window.g_view = {
+			id: <%- JSON.stringify(docid) %>,
+			versions: <%- JSON.stringify(versions) %>,
+			owner: <%- JSON.stringify(docowner) %>,
+		};
+	</script>
+	<link rel="stylesheet" href="/css/style.css" />
+	<link rel="stylesheet" href="/css/waveform.css" />
+	<script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+	<script type="text/javascript" src="/bower_components/spotify-web-api-js/src/spotify-web-api.js"></script>
+	<script type="text/javascript" src="/src/app.js"></script>
+	<script type="text/javascript" src="/src/waveform.js"></script>
+	<script type="text/javascript" src="/src/forkable.js"></script>
+</head>
+<body ng-controller="VersionsCtrl">
+
+	<h3><a href="/">Audiolooper</a></h3>
+
+	<h1 ng-hide="docid != ''">New document</h1>
+	<h1 ng-show="docid != ''">Document <span ng-bind="docid">?</span> by <a href="/user/{{docowner}}" ng-bind="docowner">?</a></h3>
+	<hr />
+
+	<div ng-if="currentuserid == ''">
+		<button id="login" ng-click="login()">SIGN IN</button>
+	</div>
+
+	<div ng-if="currentuserid != ''">
+		<img ng-src="currentuseravatar" align="absbottom" width="20" height="20" />
+		<a href="/user/{{currentuserid}}" id="username" ng-bind="currentusername"></a>
+		&nbsp;
+		<button id="login" ng-click="logout()">SIGN OUT</button>
+	</div>
+
+	<br/>
+
+	<ul>
+		<li ng-repeat="v in versions">
+			<a href="/{{docid}}/{{v.version}}">
+				version {{ v.version }}
+			</a>
+		</li>
+	</ul>
+
+</body>
+</html>
