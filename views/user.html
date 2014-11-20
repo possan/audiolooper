@@ -16,32 +16,32 @@
 	<script type="text/javascript" src="/dist/app.js"></script>
 </head>
 <body ng-controller="UserCtrl">
-
-	<h3><a href="/">Audiolooper</a></h3>
-
-	<h1>User <span ng-bind="user.name">?</span> documents</h3>
-	<hr />
-
-	<div ng-if="currentuserid == ''">
-		<button id="login" ng-click="login()">SIGN IN</button>
-	</div>
-
-	<div ng-if="currentuserid != ''">
-		<img ng-src="currentuseravatar" align="absbottom" width="20" height="20" />
-		<a href="/user/{{currentuserid}}" id="username" ng-bind="currentusername"></a>
-		&nbsp;
-		<button id="login" ng-click="logout()">SIGN OUT</button>
-	</div>
-
-	<hr/>
-
-	<ul>
-		<li ng-repeat="d in docs">
-			<a href="/{{d.id}}">
-				document {{ d.id }}
-			</a>
-		</li>
-	</ul>
+	<header>
+		<h1>
+			<a href="/" class="appname">Audiolooper</a>
+			User <span ng-bind="user.name">?</span>
+		</h1>
+		<div class="currentuser" ng-controller="LoginStatusCtrl">
+			<div ng-if="currentuserid == ''">
+				<button id="login" ng-click="login()">SIGN IN</button>
+			</div>
+			<div ng-if="currentuserid != ''">
+				<img ng-src="currentuseravatar" align="absbottom" width="20" height="20" />
+				<a href="/user/{{currentuserid}}" id="username" ng-bind="currentusername"></a>
+				&nbsp;
+				<a ng-click="logout()">Sign out</a>
+			</div>
+		</div>
+	</header>
+	<section class="main">
+		<ul>
+			<li ng-repeat="d in docs">
+				<a href="/{{d.id}}">
+					document {{ d.id }}
+				</a>
+			</li>
+		</ul>
+	</section>
 
 </body>
 </html>

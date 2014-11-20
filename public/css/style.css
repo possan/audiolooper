@@ -1,3 +1,77 @@
 body {
 	background-color: #eee;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	font: 12pt "Helvetica Neue", Helvetica, Sans-serif;
+}
+
+header {
+	background-color: #444;
+	color: #ccc;
+	position: relative;
+}
+
+header h1 {
+	margin: 0;
+	padding: 20px;
+	color: #fff;
+	font: 20pt "Helvetica Neue", Helvetica, Sans-serif;
+	font-weight: 100;
+}
+
+header h1 a {
+	color: #8f6;
+	text-decoration: none;
+}
+
+header div.actions {
+	position: absolute;
+	top: 20px;
+	right: 200px;
+}
+
+header button {
+	background-color: #5b4;
+	color: #fff;
+	border: 0;
+	border-radius: 50px;
+	font: 10pt "Helvetica Neue", Helvetica, Sans-serif;
+	font-weight: 200;
+	padding: 8px 10px;
+	outline: none;
+}
+
+header div.currentuser {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	color: #ccc;
+}
+
+header div.currentuser img {
+	position: relative;
+	width: 25px;
+	height: 25px;
+	bottom: -4px;
+}
+
+header div.currentuser a {
+	color: #ccc;
+}
+
+section.main {
+	background-color: #fff;
+	padding: 40px;
+}
+
+section.debug {
+	padding: 20px;
+}
+
+section.debug textarea {
+	width: 100%;
+}
+
+footer {
 }

@@ -16,33 +16,39 @@
 	<script type="text/javascript" src="/dist/app.js"></script>
 </head>
 <body ng-controller="VersionsCtrl">
+	<header>
+		<h1>
+			<a href="/" class="appname">Audiolooper</a>
+			<span ng-hide="docid != ''">New document</span>
+			<span ng-show="docid != ''">
+				Document <span ng-bind="docid">?</span>
+				by <a href="/user/{{docowner}}" ng-bind="docowner">?</a>
+			</span>
+		</h1>
+		<div class="currentuser" ng-controller="LoginStatusCtrl">
+			<div ng-if="currentuserid == ''">
+				<button id="login" ng-click="login()">SIGN IN</button>
+			</div>
 
-	<h3><a href="/">Audiolooper</a></h3>
+			<div ng-if="currentuserid != ''">
+				<img ng-src="currentuseravatar" align="absbottom" width="20" height="20" />
+				<a href="/user/{{currentuserid}}" id="username" ng-bind="currentusername"></a>
+				&nbsp;
+				<a ng-click="logout()">Sign out</a>
+			</div>
+		</div>
+	</header>
 
-	<h1 ng-hide="docid != ''">New document</h1>
-	<h1 ng-show="docid != ''">Document <span ng-bind="docid">?</span> by <a href="/user/{{docowner}}" ng-bind="docowner">?</a></h3>
-	<hr />
 
-	<div ng-if="currentuserid == ''">
-		<button id="login" ng-click="login()">SIGN IN</button>
-	</div>
-
-	<div ng-if="currentuserid != ''">
-		<img ng-src="currentuseravatar" align="absbottom" width="20" height="20" />
-		<a href="/user/{{currentuserid}}" id="username" ng-bind="currentusername"></a>
-		&nbsp;
-		<button id="login" ng-click="logout()">SIGN OUT</button>
-	</div>
-
-	<br/>
-
-	<ul>
-		<li ng-repeat="v in versions">
-			<a href="/{{docid}}/{{v.version}}">
-				version {{ v.version }}
-			</a>
-		</li>
-	</ul>
+	<section class="main">
+		<ul>
+			<li ng-repeat="v in versions">
+				<a href="/{{docid}}/{{v.version}}">
+					version {{ v.version }}
+				</a>
+			</li>
+		</ul>
+	</section>
 
 </body>
 </html>

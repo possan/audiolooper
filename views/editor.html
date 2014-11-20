@@ -17,38 +17,37 @@
 	<script type="text/javascript" src="/dist/app.js"></script>
 </head>
 <body ng-controller="MainCtrl">
-
-	<h3><a href="/">Audiolooper</a></h3>
-
-	<h1 ng-hide="docid != ''">New document</h1>
-	<h1 ng-show="docid != ''">Document <span ng-bind="docid">?</span> <a href="/{{docid}}/versions">Version <span ng-bind="docver">?</span></a> By <a href="/user/{{docowner}}" ng-bind="docowner">?</a></h3>
-	<hr />
-
-	<div ng-controller="LoginStatusCtrl">
-		<div ng-if="currentuserid == ''">
-			<button id="login" ng-click="login()">SIGN IN</button>
+	<header>
+		<h1>
+			<a href="/" class="appname">Audiolooper</a>
+			<span ng-hide="docid != ''">New document</span>
+			<span ng-show="docid != ''"><span ng-bind="docid">?</span> <a href="/{{docid}}/versions">version <span ng-bind="docver">?</span></a> by <a href="/user/{{docowner}}" ng-bind="docowner">?</a></span>
+		</h1>
+		<div class="actions">
+			<button id="fork" ng-click="forkdoc()">FORK THIS</button>
+			<button id="save" ng-click="savedoc()">S∆VE</button>
+			<button id="new" ng-click="newdoc()">NEW</button>
 		</div>
-
-		<div ng-if="currentuserid != ''">
-			<img ng-src="currentuseravatar" align="absbottom" width="20" height="20" />
-			<a href="/user/{{currentuserid}}" id="username" ng-bind="currentusername"></a>
-			&nbsp;
-			<button id="login" ng-click="logout()">SIGN OUT</button>
+		<div class="currentuser" ng-controller="LoginStatusCtrl">
+			<div ng-if="currentuserid == ''">
+				<button id="login" ng-click="login()">SIGN IN</button>
+			</div>
+			<div ng-if="currentuserid != ''">
+				<img ng-src="currentuseravatar" align="absbottom" width="20" height="20" />
+				<a href="/user/{{currentuserid}}" id="username" ng-bind="currentusername"></a>
+				&nbsp;
+				<a ng-click="logout()">Sign out</a>
+			</div>
 		</div>
-	</div>
+	</header>
 
-	<br/>
+	<section class="main">
+		Hej
+	</section>
 
-	<hr/>
-
-	<button id="fork" ng-click="forkdoc()">FORK THIS</button>
-	<button id="save" ng-click="savedoc()">S∆VE</button>
-	<button id="new" ng-click="newdoc()">NEW</button>
-	<br/>
-
-	<textarea id="doc" ng-model="doc" cols="100" rows="15"></textarea>
-
-	<br/>
+	<section class="debug">
+		<textarea id="doc" ng-model="doc" cols="100" rows="15"></textarea>
+	</section>
 
 </body>
 </html>
