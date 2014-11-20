@@ -2,7 +2,7 @@ if (typeof(g_module) == 'undefined') {
 	g_module = angular.module("LooperApp", []);
 }
 
-g_module.controller('MainCtrl', function($scope, $location, ForkableAPI) {
+g_module.controller('MainCtrl', function($scope, $rootScope, $location, ForkableAPI) {
 	console.log('in MainCtrl', g_view, g_user);
 
 	// bind initial state from document
@@ -12,16 +12,12 @@ g_module.controller('MainCtrl', function($scope, $location, ForkableAPI) {
 	$scope.docver = g_view.version || '';
 	$scope.docowner = g_view.owner || '';
 
-	$scope.currentuserid = g_user.id || '';
-	$scope.currentusername = g_user.username || '';
-	$scope.currentuseravatar = g_user.avatar || '';
-
-	function isDirty() {
+	$rootScope.isDirty = function() {
 		return ($scope.doc != $scope.originaldoc);
 	}
 
-	function confirmSave() {
-		if ($scope.currentuserid != '') {
+	$rootScope.confirmSave = function() {
+		if ($rootScope.currentuserid != '') {
 			if (confirm('You have unsaved changes, save?') == 1) {
 				ForkableAPI.save($scope.doc, function(res) {
 					console.log('save result', res);
@@ -36,7 +32,7 @@ g_module.controller('MainCtrl', function($scope, $location, ForkableAPI) {
 
 	$scope.login = function() {
 		console.log('start login');
-		if (isDirty()) {
+		if ($rootScope.isDirty()) {
 			// store data temporarily if changes are made, then do ?rescue
 			// window.location = '/login?forward=' + encodeURIComponent('/?rescue');
 			window.location = '/login?forward=' + encodeURIComponent('/?recover');
@@ -47,7 +43,7 @@ g_module.controller('MainCtrl', function($scope, $location, ForkableAPI) {
 
 	$scope.logout = function() {
 		console.log('logout');
-		if (isDirty()) {
+		if ($rootScope.isDirty()) {
 			confirmSave();
 		} else {
 			window.location = '/logout';
@@ -58,7 +54,7 @@ g_module.controller('MainCtrl', function($scope, $location, ForkableAPI) {
 		console.log('save this document', $scope.doc);
 		if ($scope.docid != '') {
 			console.log('we have a doc id');
-			if ($scope.docowner == $scope.currentuserid) {
+			if ($scope.docowner == $rootScope.currentuserid) {
 				console.log('we are the owner, create new version.');
 				ForkableAPI.save($scope.docid, $scope.doc, function(res) {
 					console.log('updated doc', res);
@@ -77,7 +73,7 @@ g_module.controller('MainCtrl', function($scope, $location, ForkableAPI) {
 				});
 			}
 		} else {
-			if ($scope.currentuserid != '') {
+			if ($rootScope.currentuserid != '') {
 				console.log('saving from a new doc');
 				ForkableAPI.fork($scope.doc, $scope.docid, function(res) {
 					console.log('saved a new doc', res);
@@ -103,7 +99,7 @@ g_module.controller('MainCtrl', function($scope, $location, ForkableAPI) {
 
 	$scope.newdoc = function() {
 		console.log('create new document');
-		if (isDirty()) {
+		if ($rootScope.isDirty()) {
 			confirmSave();
 		} else {
 			window.location = '/';
@@ -112,42 +108,17 @@ g_module.controller('MainCtrl', function($scope, $location, ForkableAPI) {
 
 });
 
-g_module.controller('UserCtrl', function($scope, $location, ForkableAPI) {
+g_module.controller('UserCtrl', function($scope, $rootScope, $location, ForkableAPI) {
 	console.log('in UserCtrl', g_view, g_user);
 
 	// bind initial state from document
 	$scope.id = g_view.id || '';
 	$scope.user = g_view.user || {};
-	$scope.docs = g_view.docs || [];
-
-	$scope.currentuserid = g_user.id || '';
-	$scope.currentusername = g_user.username || '';
-	$scope.currentuseravatar = g_user.avatar || '';
-
-	$scope.login = function() {
-		console.log('start login');
-		if (isDirty()) {
-			// store data temporarily if changes are made, then do ?rescue
-			// window.location = '/login?forward=' + encodeURIComponent('/?rescue');
-			window.location = '/login?forward=' + encodeURIComponent('/?recover');
-		} else {
-			window.location = '/login?forward=' + encodeURIComponent('/');
-		}
-	}
-
-	$scope.logout = function() {
-		console.log('logout');
-		if (isDirty()) {
-			confirmSave();
-		} else {
-			window.location = '/logout';
-		}
-	}
-
+	$scope.docs = (g_view.docs || []).reverse();
 
 });
 
-g_module.controller('VersionsCtrl', function($scope, $location, ForkableAPI) {
+g_module.controller('VersionsCtrl', function($scope, $rootScope, $location, ForkableAPI) {
 	console.log('in VersionsCtrl', g_view, g_user);
 
 	// bind initial state from document
@@ -157,13 +128,19 @@ g_module.controller('VersionsCtrl', function($scope, $location, ForkableAPI) {
 	$scope.versions = g_view.versions || '';
 	$scope.docowner = g_view.owner || '';
 
-	$scope.currentuserid = g_user.id || '';
-	$scope.currentusername = g_user.username || '';
-	$scope.currentuseravatar = g_user.avatar || '';
+});
+
+
+g_module.controller('LoginStatusCtrl', function($scope, $rootScope, $location, ForkableAPI) {
+	console.log('in LoginStatusCtrl', g_view, g_user);
+
+	$rootScope.currentuserid = g_user.id || '';
+	$rootScope.currentusername = g_user.username || '';
+	$rootScope.currentuseravatar = g_user.avatar || '';
 
 	$scope.login = function() {
 		console.log('start login');
-		if (isDirty()) {
+		if ($rootScope.isDirty && $rootScope.isDirty()) {
 			// store data temporarily if changes are made, then do ?rescue
 			// window.location = '/login?forward=' + encodeURIComponent('/?rescue');
 			window.location = '/login?forward=' + encodeURIComponent('/?recover');
@@ -174,8 +151,8 @@ g_module.controller('VersionsCtrl', function($scope, $location, ForkableAPI) {
 
 	$scope.logout = function() {
 		console.log('logout');
-		if (isDirty()) {
-			confirmSave();
+		if ($rootScope.isDirty && $rootScope.isDirty()) {
+			if ($rootScope.confirmSave) $rootScope.confirmSave();
 		} else {
 			window.location = '/logout';
 		}

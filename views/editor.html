@@ -30,15 +30,17 @@
 	<h1 ng-show="docid != ''">Document <span ng-bind="docid">?</span> <a href="/{{docid}}/versions">Version <span ng-bind="docver">?</span></a> By <a href="/user/{{docowner}}" ng-bind="docowner">?</a></h3>
 	<hr />
 
-	<div ng-if="currentuserid == ''">
-		<button id="login" ng-click="login()">SIGN IN</button>
-	</div>
+	<div ng-controller="LoginStatusCtrl">
+		<div ng-if="currentuserid == ''">
+			<button id="login" ng-click="login()">SIGN IN</button>
+		</div>
 
-	<div ng-if="currentuserid != ''">
-		<img ng-src="currentuseravatar" align="absbottom" width="20" height="20" />
-		<a href="/user/{{currentuserid}}" id="username" ng-bind="currentusername"></a>
-		&nbsp;
-		<button id="login" ng-click="logout()">SIGN OUT</button>
+		<div ng-if="currentuserid != ''">
+			<img ng-src="currentuseravatar" align="absbottom" width="20" height="20" />
+			<a href="/user/{{currentuserid}}" id="username" ng-bind="currentusername"></a>
+			&nbsp;
+			<button id="login" ng-click="logout()">SIGN OUT</button>
+		</div>
 	</div>
 
 	<br/>
