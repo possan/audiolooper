@@ -2,7 +2,7 @@ if (typeof(g_module) == 'undefined') {
 	g_module = angular.module("LooperApp", []);
 }
 
-g_module.controller('MainCtrl', function($scope, $rootScope, $location, ForkableAPI) {
+g_module.controller('MainCtrl', function($scope, $rootScope, $location, ForkableAPI, Playback) {
 	console.log('in MainCtrl', g_view, g_user);
 
 	// bind initial state from document
@@ -11,6 +11,106 @@ g_module.controller('MainCtrl', function($scope, $rootScope, $location, Forkable
 	$scope.docid = g_view.id || '';
 	$scope.docver = g_view.version || '';
 	$scope.docowner = g_view.owner || '';
+
+	Playback.init();
+
+	$scope.editormodel = {
+		bpm: 135,
+		playing: false,
+		mixer: 0, // -100=A, 0=A+B, 100=B,
+		changes: 0,
+		tracks: [
+			{
+				id: 0,
+				view: 0,
+				url: 'https://p.scdn.co/mp3-preview/6c6ad99e0436091023157fc4f88f470f2fcd0cd3',
+				loopStart: 1045,
+				loopEnd: 1900,
+				loopBeats: 2,
+				cuedPattern: 0,
+				playingPattern: 0,
+				patterns: [
+					{
+						id: 0,
+						slice: [ 0,1,2,3, 4,5,6,7, 8,9,10,11, 12,13,14,15 ],
+						volume: 100,
+					}
+				]
+			},
+			{
+				id: 1,
+				view: 0,
+				url: 'https://p.scdn.co/mp3-preview/3178912a225816f16ec11bd936b38baa756ff459',
+				loopStart: 6690,
+				loopEnd: 8405,
+				loopBeats: 4,
+				cuedPattern: 0,
+				playingPattern: 0,
+				patterns: [
+					{
+						id: 0,
+						slice: [ 0,1,2,3, 4,5,6,7, 8,9,10,11, 12,13,14,15 ],
+						volume: 100,
+					},
+					{
+						id: 1,
+						slice: [ 0,1,2,3, 0,1,2,3, 0,1,0,1, 0,0,0,0 ],
+						volume: 100,
+					}
+				]
+			},
+		]
+	}
+
+	$scope.doc = JSON.stringify($scope.editormodel);
+
+	$scope.$watch('editormodel.changes', function() {
+		console.log('model changed?');
+		Playback.update($scope.editormodel);
+		$scope.doc = JSON.stringify($scope.editormodel);
+	});
+
+	$scope.playpause = function() {
+		$scope.editormodel.playing = !$scope.editormodel.playing;
+		Playback.update($scope.editormodel);
+		if ($scope.editormodel.playing)
+			Playback.play();
+		else
+			Playback.stop();
+	}
+
+	$scope.addtrack = function() {
+		$scope.editormodel.tracks.push({
+			id: $scope.editormodel.tracks.length,
+			view: 0,
+			url: '',
+			outa: true,
+			outb: true,
+			loopStart: 1000,
+			loopEnd: 3000,
+			loopBeats: 1,
+			cuedPattern: 0,
+			playingPattern: 0,
+			patterns: [
+				{
+					id: 0,
+					slice: [ 0,1,2,3, 4,5,6,7, 8,9,10,11, 12,13,14,15 ],
+					volume: 100,
+				},
+				{
+					id: 1,
+					slice: [ 0,1,2,3, 0,1,2,3, 0,1,0,1, 0,0,0,0 ],
+					volume: 100,
+				}
+			]
+		});
+		$scope.doc = JSON.stringify($scope.editormodel);
+	}
+
+	$scope.changebpm = function() {
+		Playback.update($scope.editormodel);
+		$scope.doc = JSON.stringify($scope.editormodel);
+	}
 
 	$rootScope.isDirty = function() {
 		return ($scope.doc != $scope.originaldoc);

@@ -24,6 +24,12 @@
 			<span ng-show="docid != ''"><span ng-bind="docid">?</span> <a href="/{{docid}}/versions">version <span ng-bind="docver">?</span></a> by <a href="/user/{{docowner}}" ng-bind="docowner">?</a></span>
 		</h1>
 		<div class="actions">
+			<button id="play" ng-click="playpause()" ng-if="editormodel.playing == false">PLAY</button>
+			<button id="pause" ng-click="playpause()" ng-if="editormodel.playing == true">PAUSE</button>
+			&nbsp;
+			<input type="text" size="4" ng-model="editormodel.bpm" ng-change="changebpm()"></input>
+			&nbsp;
+			&nbsp;
 			<button id="fork" ng-click="forkdoc()">FORK THIS</button>
 			<button id="save" ng-click="savedoc()">S∆VE</button>
 			<button id="new" ng-click="newdoc()">NEW</button>
@@ -41,9 +47,18 @@
 		</div>
 	</header>
 
-	<section class="main">
-		Hej
+	<section class="tracks">
+		<audiotrack ng-repeat="t in editormodel.tracks track by t.id" track="t" index="t.id" editormodel="editormodel"></audiotrack>
+		<div class="trackadd">
+			<div class="inner">
+				<a ng-click="addtrack()">
+					<span>ADD TRACK +</span>
+				</a>
+			</div>
+		</div>
 	</section>
+
+	<p>{{editormodel}}</p>
 
 	<section class="debug">
 		<textarea id="doc" ng-model="doc" cols="100" rows="15"></textarea>

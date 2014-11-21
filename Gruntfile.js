@@ -22,6 +22,15 @@ module.exports = function(grunt) {
         }
       },
     },
+    sass: {
+      css: {
+        files: {
+          'public/css/track.css': [
+            'public/css/track.scss'
+          ]
+        }
+      }
+    },
     concat: {
       css: {
         files: {
@@ -76,7 +85,7 @@ module.exports = function(grunt) {
       },
       css: {
         files: ['public/css/**'],
-        tasks: ['concat:css', 'cssmin:css'],
+        tasks: ['sass:css', 'concat:css', 'cssmin:css'],
       },
       js: {
         files: ['public/src/**'],
@@ -92,7 +101,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', ['concat', 'uglify']);
-  grunt.registerTask('server', ['express:dev', 'concat', 'uglify', 'mochaTest', 'watch' ])
+  grunt.registerTask('default', ['sass:css', 'concat', 'uglify']);
+  grunt.registerTask('server', ['express:dev', 'sass:css', 'concat', 'uglify', 'mochaTest', 'watch' ])
 
 };
